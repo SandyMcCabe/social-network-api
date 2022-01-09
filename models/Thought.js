@@ -17,25 +17,25 @@ const thought = new Schema(
       trim: true,
       validate: thoughtValidator
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true
-    //   *****************must match valid email address******************
+    createdAt: {
+      type: Date,
+      default: Date.now,
+//   ***********************uses a getter method to format the timestamp on query    
+    
     },
-    thoughts: {
-//   ***********************array of id values referencing the THought model
+    username: {
+        type: String,
+        required: true,
     },
-    friends: {
-    //  ***********************array of id values referencing the user model (self-reference)
+    reactions: {
+    //  ***********************array of nexted documents created with the reaction schema
     },
     
-// get total count of comments and replies on retrieval
-UserSchema.virtual('friendCount').get(function() {
+// retrieves the length of the thought's reactions array field on query
+UserSchema.virtual('reactionCount').get(function() {
 
 });
 
-const User = model('User', UserSchema);
+const Thought = model('Thought', ThoughtSchema);
 
-module.exports = User;
+module.exports = Thought;
