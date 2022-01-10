@@ -34,7 +34,7 @@ const thoughtSchema = new Schema(
 });
     
 // retrieves the length of the thought's reactions array field on query
-UserSchema.virtual('reactionCount').get(function() {
+thoughtSchema.virtual('reactionCount').get(function() {
     return this.reactSchema.length;
 });
 

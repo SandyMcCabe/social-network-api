@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 // app.use(routes);
-app.use(require('./routes'));
+app.use(require('./routes/api'));
 
 
 db.once('open', () => {
