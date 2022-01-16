@@ -6,11 +6,11 @@ const userController = {
   getAllUsers(req, res) {
     User.find({})
       .populate({
-        path: 'thoughts', 
+        path: 'thoughts',
         select: '-__v'
       })
       .populate({
-        path: 'friends', 
+        path: 'friends',
         select: '-__v'
       })
       .select('-__v')
@@ -72,18 +72,18 @@ const userController = {
         res.json(dbUserData);
       })
       .catch(err => res.json(err));
-    },
+  },
 
-//addFriend
-addFriend({ params }, res) {
+  //addFriend
+  addFriend({ params }, res) {
     User.findOneAndUpdate(
-        { _id: params.id }, 
-        { $push: { friends: params.friendsId }}, 
-        { new: true })
-        .populate({
-            path: 'friends',
-            select: '-__v'
-        })
+      { _id: params.id },
+      { $push: { friends: params.friendsId } },
+      { new: true })
+      .populate({
+        path: 'friends',
+        select: '-__v'
+      })
       .select('-__v')
       .then(dbUserData => {
         if (!dbUserData) {
@@ -93,21 +93,21 @@ addFriend({ params }, res) {
         res.json(dbUserData);
       })
       .catch(err => res.json(err));
-      
-    },
-  
-//deleteFriend
-deleteFriend({ params }, res) {
+
+  },
+
+  //deleteFriend
+  deleteFriend({ params }, res) {
     User.findOneAndUpdate(
-        { _id: params.id }, 
-        { $pull: { friends: params.friendsId }}, 
-        { new: true })
-        .populate({
-            path: 'friends',
-            select: '-__v'
-        })
-        .select('-__v')
-        .then(dbUserData => {
+      { _id: params.id },
+      { $pull: { friends: params.friendsId } },
+      { new: true })
+      .populate({
+        path: 'friends',
+        select: '-__v'
+      })
+      .select('-__v')
+      .then(dbUserData => {
         if (!dbUserData) {
           res.status(404).json({ message: 'No User found with this id!' });
           return;
@@ -115,7 +115,7 @@ deleteFriend({ params }, res) {
         res.json(dbUserData);
       })
       .catch(err => res.json(err));
-    }
+  }
 };
 
 

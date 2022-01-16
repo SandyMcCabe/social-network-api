@@ -3,7 +3,7 @@ const dateFormat = require('../utils/dateFormat');
 
 const reactSchema = new Schema(
   {
-    reactionID: {
+    reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId()
     },
@@ -11,24 +11,24 @@ const reactSchema = new Schema(
       type: String,
       required: true,
       maxlength: 280,
-          
+
     },
     username: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-    //  ***********************array of nexted documents created with the reaction schema
+
     createdAt: {
-        type: Date,
-        default: Date.now,
-        get: timestamp => dateFormat(timestamp)
+      type: Date,
+      default: Date.now,
+      get: timestamp => dateFormat(timestamp)
     },
-},
-{
+  },
+  {
     toJSON: {
-        getters: true
+      getters: true
     },
     id: false
-});
-    
+  });
+
 module.exports = reactSchema;

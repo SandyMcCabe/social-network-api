@@ -17,20 +17,23 @@ const thoughtController = {
       });
   },
 
-  // get one Thought by id
+  //GET Thought by id
   getThoughtById({ params }, res) {
     Thought.findOne({ _id: params.id })
-      .populate({
-        path: 'reactions',
-        select: '-__v'
-      })
       .select('-__v')
-      .then(dbThoughtData => res.json(dbThoughtData))
+      .then(thoughtData => {
+        if (!thoughtData) {
+          res.status(404).json({ message: 'No thought with this id!' })
+          return;
+        }
+        res.json(thoughtData)
+      })
       .catch(err => {
-        console.log(err);
-        res.sendStatus(400);
+        console.log(err)
+        res.status(400).json(err)
       });
   },
+
 
   // createThought
   createThought({ body }, res) {
@@ -63,25 +66,19 @@ const thoughtController = {
       .catch(err => res.json(err));
   },
 
-  // delete Thought and user it's associated to
-  deleteThought(req, res) {
-    Thought.findOneAndDelete({ _id: req.params.thoughtId })
-      .then(dbThoughtData => {
-        if (!dbThoughtData) {
-          return res.status(404).json({ message: 'No Thoughts found with this id' })
-        } return User.findOneAndUpdate(
-          { thoughts: req.params.thoughtId },
-          { $pull: { thoughts: req.params.thoughtId } },
-          { new: true }
-        );
+  //DELETE Thought
+  deleteThought({ params }, res) {
+    Thought.findOneAndDelete({ _id: params.id })
+      .then(deletedThought => {
+        if (!deletedThought) {
+          res.status(404).json({ message: 'No thought with this id!' });
+          return;
+        }
+        res.json(deletedThought);
       })
-      .then(dbUserData => {
-        if (!dbUserData) {
-          return res.status(404).json({ message: 'No User found with this Id' })
-        } res.json({ message: 'Thought sucessfully deleted' });
-      })
-      .catch((err) => {
-        res.status(500).json(err);
+      .catch(err => {
+        console.log(err)
+        res.status(400).json(err)
       });
   },
 
@@ -104,11 +101,11 @@ const thoughtController = {
       });
   },
 
-  //deletReaction
+  //removeReaction
   deleteReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { thoughts: req.params.thoughtId } },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
       { runValidators: true, new: true }
     )
       .then(dbThoughtData => {

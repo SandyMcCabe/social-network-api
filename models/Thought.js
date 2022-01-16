@@ -13,29 +13,28 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      //   ***********************uses a getter method to format the timestamp on query    
-      get:timestamp => dateFormat(timestamp)
-    
+      // uses a getter method to format the timestamp on query    
+      get: timestamp => dateFormat(timestamp)
+
     },
     username: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-    //  ***********************array of nexted documents created with the reaction schema
     reactions: [
-        reactSchema
+      reactSchema
     ],
-},
-{
+  },
+  {
     toJSON: {
-        getters: true
+      getters: true
     },
     id: false
-});
-    
+  });
+
 // retrieves the length of the thought's reactions array field on query
-thoughtSchema.virtual('reactionCount').get(function() {
-    return this.reactions.length;   
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
 });
 
 const Thought = model('Thought', thoughtSchema);
