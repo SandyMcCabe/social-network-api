@@ -2,7 +2,9 @@
 
 ## Description
 ```
-The Social Network api is an application to allow users and their friends to make posts, comment on each others posts, and also react to comments.  Users would be able to add, edit, and remove their posts and comments.  They would also be able to add and remove their reactions.
+The Social Network api is an application to allow users and their friends to make posts.  
+Users can comment on each others posts, and also react to comments.  
+Users would be able to add, edit, and remove their posts and comments.  
 ```
 
 ## Website
